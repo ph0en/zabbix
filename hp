@@ -1,0 +1,7 @@
+#place this file to /etc/sudoers.d/
+zabbix ALL = (ALL) NOPASSWD: /usr/sbin/hpacucli ctrl all show
+zabbix ALL = (ALL) NOPASSWD: /usr/sbin/hpacucli ctrl slot=[0-9] pd all show
+zabbix ALL = (ALL) NOPASSWD: /usr/sbin/hpacucli ctrl slot=[0-9] ld all show
+zabbix ALL = (ALL) NOPASSWD: /usr/sbin/hpacucli ctrl slot=[0-9] show
+zabbix ALL = (ALL) NOPASSWD: /usr/sbin/hpacucli ctrl slot=[0-9] ld [0-9] show
+zabbix ALL = (ALL) NOPASSWD: /usr/sbin/hpacucli ctrl slot=[0-9] pd ??\:?\:? show
