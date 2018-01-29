@@ -5,9 +5,9 @@ chown -R box:box /home/box/web/
 sed -i 's/user www-data/user box/g' /etc/nginx/nginx.conf
 rm /etc/nginx/sites-enabled/default
 > /home/box/web/etc/site.conf
-ln -s /home/web/etc/site.conf /etc/nginx/sites-enabled/site.conf
+ln -s /home/box/web/etc/site.conf /etc/nginx/sites-enabled/site.conf
 
-cat << EOF >> /etc/nginx/sites-enabled/site.conf
+cat << EOF >> /etc/box/web/site.conf
 server {
 	listen 80;
 	server_name _;
