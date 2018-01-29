@@ -37,17 +37,13 @@ cat<<EOF >> /home/box/web/hello.py
 from cgi import parse_qs
 def app(environ, start_response):
 #    data = b"Hello, World!\n"
-    d = parse_qs(environ['QUERY_STRING'])
-    for i in d:
-    	line = i + '=' + d.get(i)[0] + '\r\n'
-    	resp_body += line
+    d = environ['QUERY_STRING']
+    d2 = d.replace("&", '\n')
     start_response("200 OK", [
         ("Content-Type", "text/plain"),
-        ("Content-Length", str(len(resp_body)))
+        ("Content-Length", str(len(d2)))
     ])
-    #return iter([data])
-    
-    return iter([resp_body])
+    return iter([d2])
 EOF
 
 > /home/box/web/etc/hello.py
