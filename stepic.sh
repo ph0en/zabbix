@@ -38,8 +38,9 @@ from cgi import parse_qs
 def app(environ, start_response):
 #    data = b"Hello, World!\n"
     d = parse_qs(environ['QUERY_STRING'])
-    for i in d.get():
-        resp_body += i
+    for i in d:
+    	line = i + '=' + d.get(i)[0] + '\r\n'
+    	resp_body += line
     start_response("200 OK", [
         ("Content-Type", "text/plain"),
         ("Content-Length", str(len(resp_body)))
