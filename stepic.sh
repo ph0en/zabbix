@@ -23,26 +23,46 @@ server {
 	location / {
 		return 404;
 	}
+	
+	location /hello/ {
+		proxy_pass http://127.0.0.1:8080;
+	}
 }
 EOF
 
-nginx -t && service nginx start
+nginx -t && service nginx start && curl -I localhost
 
 > /home/box/web/hello.py
 cat<<EOF >> /home/box/web/hello.py
-    def app(environ, start_response):
-        data = b"Hello, World!\n"
-        start_response("200 OK", [
-            ("Content-Type", "text/plain"),
-            ("Content-Length", str(len(data)))
-        ])
-        return iter([data])
+from cgi import parse_qs
+def app(environ, start_response):
+#    data = b"Hello, World!\n"
+    d = parse_qs
+    for i in d.get:
+        resp_body += i
+    start_response("200 OK", [
+        ("Content-Type", "text/plain"),
+        ("Content-Length", str(len(resp_body)))
+    ])
+    #return iter([data])
+    
+    return iter([resp_body])
 EOF
 
-> /home/box/web/etc/gunicorn.conf
+> /home/box/web/etc/hello.py
+ln -s /home/box/web/etc/hello.py /etc/gunicorn.d/hello.py
 
-#cat<<EOF >> /home/box/web/gunicorn.conf
-#CONFIG = {
-#
-#}
-#EOF
+cat<<EOF >> /home/box/web/etc/hello.py
+CONFIG = {
+	'mode': 'wsgi',
+	'working_dir': '/home/box/web',
+	'python': '/usr/bin/python',
+	'args': (
+		'--bind=0.0.0.0:8080',
+		'--workers=4',
+		'--timeout=60',
+		'hello:app',
+	),
+}
+EOF
+/etc/init.d/gunicorn start && curl -I localhost:8080
