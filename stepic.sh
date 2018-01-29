@@ -37,7 +37,7 @@ cat<<EOF >> /home/box/web/hello.py
 from cgi import parse_qs
 def app(environ, start_response):
 #    data = b"Hello, World!\n"
-    d = parse_qs
+    d = parse_qs(environ['QUERY_STRING'])
     for i in d.get:
         resp_body += i
     start_response("200 OK", [
