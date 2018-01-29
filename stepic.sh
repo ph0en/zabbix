@@ -27,3 +27,22 @@ server {
 EOF
 
 nginx -t && service nginx start
+
+> /home/box/web/hello.py
+cat<<EOF >> /home/box/web/hello.py
+    def app(environ, start_response):
+        data = b"Hello, World!\n"
+        start_response("200 OK", [
+            ("Content-Type", "text/plain"),
+            ("Content-Length", str(len(data)))
+        ])
+        return iter([data])
+EOF
+
+> /home/box/web/etc/gunicorn.conf
+
+#cat<<EOF >> /home/box/web/gunicorn.conf
+#CONFIG = {
+#
+#}
+#EOF
