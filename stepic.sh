@@ -7,7 +7,7 @@ rm /etc/nginx/sites-enabled/default
 > /home/box/web/etc/site.conf
 ln -s /home/box/web/etc/site.conf /etc/nginx/sites-enabled/site.conf
 
-cat << EOF >> /etc/box/web/etc/site.conf
+cat << EOF >> /home/box/web/etc/site.conf
 server {
 	listen 80;
 	server_name _;
